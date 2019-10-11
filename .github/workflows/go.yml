@@ -38,7 +38,7 @@ jobs:
     - name: Test
       run: |
         go test -covermode count -coverprofile cover.out
-        ./goveralls -v -service travis-ci -repotoken ${{ secrets.coveralls }} -coverprofile cover.out
+        ./goveralls -v -service github-actions -repotoken ${{ secrets.coveralls }} -coverprofile cover.out
       
     - name: Benchmark
       run: go test -test.run Benchmark -cpu 1 -bench .
