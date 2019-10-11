@@ -7,9 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-    env:
-      CODE: github.com/eduncan911
-      REPO: github-actions
     
     steps:
 
@@ -18,18 +15,19 @@ jobs:
       with:
         go-version: 1.12
       id: go
+      env:
+        CODE: ~/go/src/github.com/${GITHUB_REPOSITORY}
 
     - name: Check out code the Go-Way
       run: |
-        env
-        mkdir -p ~/go/src/${CODE}
-        cd ..
-        ls -la
-        mv ${REPO} ~/go/src/${CODE}
+        mkdir -p ${CODE}
+        cp -r ${PWD} ${CODE}
+        GITHUB_WORKSPACE=${CODE}
 
     - name: Get dependencies
       run: |
-        cd ~/go/src/${CODE}/${REPO}
+        echo ${GITHUB_WORKSPACE}
+        cd ${CODE}
         go get -v -t -d ./...
         if [ -f Gopkg.toml ]; then
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
@@ -40,16 +38,19 @@ jobs:
 
     - name: Build
       run: |
-        cd ~/go/src/${CODE}/${REPO}
+        echo ${GITHUB_WORKSPACE}
+        cd ${CODE}
         go build -v ./...
     
     - name: Test
       run: |
-        cd ~/go/src/${CODE}/${REPO}
+        echo ${GITHUB_WORKSPACE}
+        cd ${CODE}
         go test -covermode count -coverprofile cover.out
         ~/go/bin/goveralls -v -service github-actions -repotoken=${{ secrets.coveralls }} -coverprofile=cover.out
       
     - name: Benchmark
       run: |
-        cd ~/go/src/${CODE}/${REPO}
+        echo ${GITHUB_WORKSPACE}
+        cd ${CODE}
         go test -test.run Benchmark -cpu 1 -bench .
