@@ -20,8 +20,11 @@ jobs:
 
     - name: Check out code the Go-Way
       run: |
+        env
         pwd
         mkdir -p ~/go/src/github.com/${GITHUB_ACTOR}/
+        ls -la ~/go/src/github.com/
+        ls -la ~/go/src/github.com/eduncan911/
         cp -r $(pwd) ~/go/src/github.com/${GITHUB_ACTOR}/
 
     - name: Get dependencies
