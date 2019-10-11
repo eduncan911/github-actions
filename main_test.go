@@ -20,22 +20,22 @@ func TestThis(t *testing.T) {
 	}
 }
 
-// func TestThisThat(t *testing.T) {
-// 	// arrange
-// 	this := "this"
-// 	that := "that"
-// 	thing := Thing{Thang: that}
+func TestThisThat(t *testing.T) {
+	// arrange
+	this := "this"
+	that := "that"
+	thing := Thing{Thang: that}
 
-// 	// act
-// 	v := thing.ThingThang(this)
+	// act
+	v := thing.ThingThang(this)
 
-// 	// assert
-// 	expected := that + this
-// 	if v != expected {
-// 		fmt.Printf("TestThingThang failed. Wanted %s got %s", expected, v)
-// 		t.Fail()
-// 	}
-// }
+	// assert
+	expected := that + this
+	if v != expected {
+		fmt.Printf("TestThingThang failed. Wanted %s got %s", expected, v)
+		t.Fail()
+	}
+}
 
 func TestThatThis(t *testing.T) {
 	// arrange
