@@ -33,7 +33,7 @@ jobs:
         go install -v github.com/mattn/goveralls
 
     - name: Build
-      run: 
+      run: |
         cd ~/go/src/${CODE}
         go build -v ./...
     
