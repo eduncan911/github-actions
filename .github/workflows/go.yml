@@ -16,17 +16,15 @@ jobs:
         go-version: 1.12
       id: go
       env:
-        CODE: ~/go/src/github.com/${GITHUB_REPOSITORY}
+        CODE: ~/go/src/github.com/eduncan911/github-actions
 
     - name: Check out code the Go-Way
       run: |
         mkdir -p ${CODE}
         cp -r ${PWD} ${CODE}
-        GITHUB_WORKSPACE=${CODE}
 
     - name: Get dependencies
       run: |
-        echo ${GITHUB_WORKSPACE}
         cd ${CODE}
         go get -v -t -d ./...
         if [ -f Gopkg.toml ]; then
@@ -38,19 +36,16 @@ jobs:
 
     - name: Build
       run: |
-        echo ${GITHUB_WORKSPACE}
         cd ${CODE}
         go build -v ./...
     
     - name: Test
       run: |
-        echo ${GITHUB_WORKSPACE}
         cd ${CODE}
         go test -covermode count -coverprofile cover.out
         ~/go/bin/goveralls -v -service github-actions -repotoken=${{ secrets.coveralls }} -coverprofile=cover.out
       
     - name: Benchmark
       run: |
-        echo ${GITHUB_WORKSPACE}
         cd ${CODE}
         go test -test.run Benchmark -cpu 1 -bench .
