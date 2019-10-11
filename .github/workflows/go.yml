@@ -30,6 +30,10 @@ jobs:
         fi
         go get -v github.com/mattn/goveralls
         go install -v github.com/mattn/goveralls
+        which -a goveralls
+        ls -la
+        ls -la $GOPATH/
+        ls -la $GOPATH/bin/
 
     - name: Build
       run: go build -v .
