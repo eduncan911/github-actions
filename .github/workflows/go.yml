@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
+    env:
+      CODE: ~/go/src/github.com/eduncan911/github-actions
     
     steps:
 
@@ -15,8 +17,6 @@ jobs:
       with:
         go-version: 1.12
       id: go
-      env:
-        CODE: ~/go/src/github.com/eduncan911/github-actions
 
     - name: Check out code the Go-Way
       run: |
