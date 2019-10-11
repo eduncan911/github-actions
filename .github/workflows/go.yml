@@ -21,7 +21,7 @@ jobs:
     - name: Check out code the Go-Way
       run: |
         mkdir -p ${CODE}
-        cp -r ${PWD} ${CODE}
+        cp -r $(pwd) ${CODE}
 
     - name: Get dependencies
       run: |
