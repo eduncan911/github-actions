@@ -8,7 +8,8 @@ jobs:
     strategy:
       fail-fast: true
     env:
-      CODE: github.com/eduncan911/github-actions
+      CODE: github.com/eduncan911
+      REPO: github-actions
     
     steps:
 
@@ -19,11 +20,14 @@ jobs:
       id: go
 
     - name: Check out code the Go-Way
-      run: go get ${CODE}
+      run: |
+        mkdir -p ~/go/src/${CODE}
+        cd ..
+        mv ${REPO} ~/go/src/${CODE}
 
     - name: Get dependencies
       run: |
-        cd ~/go/src/${CODE}
+        cd ~/go/src/${CODE}/${REPO}
         go get -v -t -d ./...
         if [ -f Gopkg.toml ]; then
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
@@ -34,17 +38,16 @@ jobs:
 
     - name: Build
       run: |
-        cd ~/go/src/${CODE}
+        cd ~/go/src/${CODE}/${REPO}
         go build -v ./...
     
     - name: Test
       run: |
-        cd ~/go/src/${CODE}
+        cd ~/go/src/${CODE}/${REPO}
         go test -covermode count -coverprofile cover.out
-        cat cover.out
         ~/go/bin/goveralls -v -service github-actions -repotoken=${{ secrets.coveralls }} -coverprofile=cover.out
       
     - name: Benchmark
       run: |
-        cd ~/go/src/${CODE}
+        cd ~/go/src/${CODE}/${REPO}
         go test -test.run Benchmark -cpu 1 -bench .
