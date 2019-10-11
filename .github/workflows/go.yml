@@ -26,9 +26,8 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
-        go get -v github.com/mattn/goveralls
+        go get -v github.com/mattn/goveralls@v0.0.2
         GOBIN=$(pwd) go install -v github.com/mattn/goveralls
-        ls -la
 
     - name: Build
       run: go build -v .
