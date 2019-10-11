@@ -36,7 +36,8 @@ jobs:
     - name: Test
       run: |
         go test -covermode count -coverprofile cover.out
-        ~/go/bin/goveralls -repotoken ${{ secrets.coveralls }}
+        cat cover.out
+        ~/go/bin/goveralls -repotoken=${{ secrets.coveralls }} -coverprofile=cover.out
       
     - name: Benchmark
       run: go test -test.run Benchmark -cpu 1 -bench .
