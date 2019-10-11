@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: true
     env:
-      CODE: ~/go/src/github.com/eduncan911/github-actions
+      CODE: ~/go/src/github.com/${GITHUB_REPOSITORY}
     
     steps:
 
@@ -19,13 +19,7 @@ jobs:
       id: go
 
     - name: Check out code the Go-Way
-      run: |
-        env
-        pwd
-        mkdir -p ~/go/src/github.com/${GITHUB_ACTOR}/
-        ls -la ~/go/src/github.com/
-        ls -la ~/go/src/github.com/eduncan911/
-        cp -r $(pwd) ~/go/src/github.com/${GITHUB_ACTOR}/
+      run: go get github.com/${GITHUB_REPOSITORY}
 
     - name: Get dependencies
       run: |
