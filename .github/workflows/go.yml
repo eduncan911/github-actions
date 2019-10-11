@@ -23,7 +23,7 @@ jobs:
 
     - name: Get dependencies
       run: |
-        cd ${CODE}
+        cd ~/go/src/${CODE}
         go get -v -t -d ./...
         if [ -f Gopkg.toml ]; then
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
@@ -33,14 +33,18 @@ jobs:
         go install -v github.com/mattn/goveralls
 
     - name: Build
-      run: cd ${CODE} && go build -v ./...
+      run: 
+        cd ~/go/src/${CODE}
+        go build -v ./...
     
     - name: Test
       run: |
-        cd ${CODE}
+        cd ~/go/src/${CODE}
         go test -covermode count -coverprofile cover.out
         cat cover.out
         ~/go/bin/goveralls -repotoken=${{ secrets.coveralls }} -coverprofile=cover.out
       
     - name: Benchmark
-      run: ${CODE} && go test -test.run Benchmark -cpu 1 -bench .
+      run: |
+        cd ~/go/src/${CODE}
+        go test -test.run Benchmark -cpu 1 -bench .
