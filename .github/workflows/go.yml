@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
+    env:
+      CODE: github.com/eduncan911/github-actions
     
     steps:
 
@@ -16,12 +18,12 @@ jobs:
         go-version: 1.12
       id: go
 
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v1
+    - name: Check out code the Go-Way
+      run: go get ${CODE}
 
     - name: Get dependencies
       run: |
-        go version
+        cd ${CODE}
         go get -v -t -d ./...
         if [ -f Gopkg.toml ]; then
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
@@ -31,13 +33,14 @@ jobs:
         go install -v github.com/mattn/goveralls
 
     - name: Build
-      run: go build -v ./...
+      run: cd ${CODE} && go build -v ./...
     
     - name: Test
       run: |
+        cd ${CODE}
         go test -covermode count -coverprofile cover.out
         cat cover.out
         ~/go/bin/goveralls -repotoken=${{ secrets.coveralls }} -coverprofile=cover.out
       
     - name: Benchmark
-      run: go test -test.run Benchmark -cpu 1 -bench .
+      run: ${CODE} && go test -test.run Benchmark -cpu 1 -bench .
