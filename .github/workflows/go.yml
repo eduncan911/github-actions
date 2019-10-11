@@ -42,7 +42,7 @@ jobs:
         cd ~/go/src/${CODE}
         go test -covermode count -coverprofile cover.out
         cat cover.out
-        ~/go/bin/goveralls -repotoken=${{ secrets.coveralls }} -coverprofile=cover.out
+        ~/go/bin/goveralls -v -service github-actions -repotoken=${{ secrets.coveralls }} -coverprofile=cover.out
       
     - name: Benchmark
       run: |
