@@ -36,9 +36,6 @@ jobs:
     - name: Test
       run: go test -v
     
-    - name: Coveralls (bare)
-      run: $GOPATH/bin/goveralls -service=github-actions
-    
     - name: Coveralls Parallel
       uses: coverallsapp/github-action@master
       with:
