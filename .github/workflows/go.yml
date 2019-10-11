@@ -28,6 +28,7 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
+        go get github.com/mattn/goveralls
 
     - name: Build
       run: go build -v .
@@ -35,17 +36,17 @@ jobs:
     - name: Test
       run: go test -v
     
-    - name: Cover
-      run: go test -cover
+    - name: Coveralls (bare)
+      run: $GOPATH/bin/goveralls -service=github-actions
     
     - name: Coveralls Parallel
       uses: coverallsapp/github-action@master
       with:
-        github-token: ${{ secrets.github_token }}
+        github-token: ${{ secrets.coveralls }}
         parallel: true
 
     - name: Coveralls Finished
       uses: coverallsapp/github-action@master
       with:
-        github-token: ${{ secrets.github_token }}
+        github-token: ${{ secrets.coveralls }}
         parallel-finished: true
