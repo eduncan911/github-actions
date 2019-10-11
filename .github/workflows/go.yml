@@ -7,12 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
-      matrix:
-        device: [mark-one, mark-two-sdcard, mark-two-spi]
     
     steps:
 
-    - name: Set up Go 1.12 for ${{ matrix.device }}
+    - name: Set up Go 1.12
       uses: actions/setup-go@v1
       with:
         go-version: 1.12
