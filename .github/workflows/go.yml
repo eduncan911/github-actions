@@ -21,8 +21,10 @@ jobs:
 
     - name: Check out code the Go-Way
       run: |
+        env
         mkdir -p ~/go/src/${CODE}
         cd ..
+        ls -la
         mv ${REPO} ~/go/src/${CODE}
 
     - name: Get dependencies
