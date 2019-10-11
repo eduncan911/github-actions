@@ -31,7 +31,7 @@ jobs:
         #GOBIN=$(pwd) go install -v github.com/mattn/goveralls
 
     - name: Build
-      run: go build -v .
+      run: go build -v ./...
     
     - name: Test
       run: |
