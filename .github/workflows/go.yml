@@ -29,17 +29,16 @@ jobs:
             dep ensure
         fi
         go get -v github.com/mattn/goveralls
-        ls -la $GOPATH/bin/
         GOBIN=$(pwd) go install -v github.com/mattn/goveralls
-        ls -la $GOPATH/bin/
         ls -la
 
     - name: Build
       run: go build -v .
     
     - name: Test
-      run: go test -v
-
-    - name: Coveralls (bare)
-      run: goveralls -service=github-actions
-    
+      run: |
+        go test -covermode count -coverprofile cover.out
+        ./goveralls -v -service travis-ci -repotoken ${{ secrets.coveralls }} -coverprofile cover.out
+      
+    - name: Benchmark
+      run: go test -test.run Benchmark -cpu 1 -bench .
