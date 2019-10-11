@@ -27,9 +27,7 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
-        go get -v -d github.com/mattn/goveralls
-        cd ~/go/src/github.com/mattn/goveralls
-        git checkout tags/v0.0.2
+        go get -v github.com/mattn/goveralls
         go install -v github.com/mattn/goveralls
 
     - name: Build
@@ -38,7 +36,7 @@ jobs:
     - name: Test
       run: |
         go test -covermode count -coverprofile cover.out
-        ~/go/bin/goveralls -v -service github-actions -repotoken ${{ secrets.coveralls }} -coverprofile cover.out
+        ~/go/bin/goveralls -v -repotoken ${{ secrets.coveralls }} -coverprofile cover.out
       
     - name: Benchmark
       run: go test -test.run Benchmark -cpu 1 -bench .
